@@ -1,0 +1,24 @@
+{% extends "_base.html" %}
+    {% block content %}
+    <ul>
+        <form method = "post" action = "/book/addbook">
+            <label for="title-input">Title</Title></label>
+            <input id="title-input" type = "text" name = "title"/>
+        
+            <label for="author-input">Author</label>
+            <input id="author-input" type = "text" name = "author"/>
+        
+             <label for="genre">Genre</label>
+            <input id="genre" type = "text" name = "genre"/>
+
+
+            <label for="release-date">Release Date</label>
+            <input id="release-date" type = "date" name = "releaseDate"/>
+
+
+            <button type="submit">Submit!</button>
+        </form>
+    </ul>
+{% endblock %}
+
+        

@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+{% block content %}
+<h1>Edit book entry</h1>
+    <ul>
+    <form method = "post" action = "/books/edit-book">
+        <label for="id">Enter Book Id</label>
+        <input id="id" type = "text" name = "id"/>
+        <label for="newtitle"> New Title<label>
+        <input id="newtitle"type ="text" name ="newtitle"/>
+        <label for="newauthor"> New Author<label>
+        <input id="newauthor"type ="text" name ="newauthor"/>
+        <label for="newgenre"> New Genre<label>
+        <input id="newgenre"type ="text" name ="newgenre"/>
+        <label for="newrelease"> New Release<label>
+        <input id="newrelease"type ="text" name ="newrelease"/>
+        <button type="update">Update</button>
+    </ul>
+{% endblock %}

@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS copies_of_books (
 
 CREATE TABLE IF NOT EXISTS checkout_history (
     id       serial primary key,
-    user_id   int REFERENCnpES member(id) not null,
+    user_id   int REFERENCES member(id) not null,
     copy_id   int REFERENCES copies_of_books(id) not null,
     return_date  date not null,
-    check_in   date not null,
+    check_in   date,
     check_out  date not null
 
 );

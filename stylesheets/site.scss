@@ -1,3 +1,72 @@
 ﻿body {
-  background: blue;
+  background-image: url(https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80);
+
+
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
+@mixin font {
+  font-family: 'Cairo', sans-serif;
+  color: #A5C4D4;
+}
+
+
+nav {
+  background-color: #315659;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1, h2, h3, a, p, li, ul {
+  @include font;
+
+}
+ th, td{
+  @include font;
+  
+  color: grey;
+  border: 0.2px solid black;
+  text-align: center;
+  
+}
+.greeting{
+  display: flex;
+  justify-content: center;
+}
+
+.quantity-table{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 29px;
+}
+
+.add-book.form{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 29px;
+
+}
+.checkout-book-form-labels{
+  margin: 20px;
+  padding: 29px;
+
+}
+
+.members-table{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 29px;
+}
+.checkout-book-table{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 29px;
 }

@@ -1,7 +1,10 @@
 {% extends "_base.html" %}
     {% block content %}
+    <div class="greeting">
+        <h1>Add and remove books here</h1>
+    </div>
     <ul>
-        <form method = "post" action = "/book/addbook">
+        <form class = "add-book-form" method = "post" action = "/book/addbook">
             <label for="title-input">Title</Title></label>
             <input id="title-input" type = "text" name = "title"/>
         
@@ -13,12 +16,21 @@
 
 
             <label for="release-date">Release Date</label>
-            <input id="release-date" type = "date" name = "releaseDate"/>
+            <input id="release-date" type = "int" name = "release_date"/>
 
 
             <button type="submit">Submit!</button>
         </form>
     </ul>
+        
+    <ul>
+        <form method = "delete" action = "/books/remove">
+            <label for="id">Book ID</label>
+            <input id="id" type = "text" name = "id"/>
+            <button type="delete">Delete</button>
+        </form>
+    </ul>
+
 {% endblock %}
 
         

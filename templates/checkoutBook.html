@@ -1,0 +1,32 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="greeting">
+    <h1>Checkout books here.</h1>
+</div>
+<form class="checkout-book-form" method="post" action="/book/checkout_book">
+        <label class="checkout-book-form-labels" for="copy_id">Enter Book Id</label>
+        <input id="copy_id" type="text" name="copy_id" />
+        <label class="checkout-book-form-labels" for="user_id">Enter User Id</label>
+        <input id="user_id" type="text" name="user_id" />
+    <button type="checkout">Check Out</button>
+</form>
+<table class="checkout-book-table">
+    <tr>
+        <th>Id</th>
+        <th>User Id</th>
+        <th>copy id</th>
+        <th>Return date</th>
+        <th>Checked in date</th>
+        <th>checked out date</th>
+    </tr>
+    {% for checkout in checkout_history %}ß
+    <td>{{checkout.id}}</td>
+    <td>{{checkout.user_id}}</td>
+    <td>{{checkout.copy_id}}</td>
+    <td>{{checkout.return_date | formatDate}}</td>
+    <td>{{checkout.checked_in_date}}</td>
+    <td>{{checkout.checked_out_date | formatDate}}</td>
+    </tr>
+    
+{% endfor %}
+{% endblock %}

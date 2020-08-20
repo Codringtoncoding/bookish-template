@@ -5,13 +5,19 @@
   <h1>See all books and whats in stock.</h1>
 </div>
 
-<table class="quantity-table">
+<table class="table tabel-dark">">
   <tr>
     <th>Title</th>
+    <th>Author</th>
+    <th>Genre</th>
+    <th>Release Date</th>>
     <th>Quantity</th>
   </tr>
   {% for book in bookCopies %}
   <td>{{book.title}}</td>
+  <td>{{book.author}}</td>
+  <td>{{book.genre}}</td>
+  <td>{{book.realease_date}}</td>
   <td>{{book.quantity.count}}</td>
   </tr>
   {% endfor %}

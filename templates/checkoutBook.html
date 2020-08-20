@@ -10,7 +10,10 @@
         <input id="user_id" type="text" name="user_id" />
     <button type="checkout">Check Out</button>
 </form>
-<table class="checkout-book-table">
+
+
+
+<table class="table tabel-dark">
     <tr>
         <th>Id</th>
         <th>User Id</th>
@@ -19,7 +22,7 @@
         <th>Checked in date</th>
         <th>checked out date</th>
     </tr>
-    {% for checkout in checkout_history %}ß
+    {% for checkout in checkout_history %}
     <td>{{checkout.id}}</td>
     <td>{{checkout.user_id}}</td>
     <td>{{checkout.copy_id}}</td>

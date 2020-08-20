@@ -28,7 +28,7 @@ h1, h2, h3, a, p, li, ul {
  th, td{
   @include font;
   
-  color: grey;
+  color: rgb(250, 250, 250);
   border: 0.2px solid black;
   text-align: center;
   
@@ -45,16 +45,29 @@ h1, h2, h3, a, p, li, ul {
   padding: 29px;
 }
 
-.add-book.form{
+.add-book-form{
   display: flex;
   justify-content: center;
-  margin: 20px;
-  padding: 29px;
+  flex-direction: column;
+  text-align: center;
+  margin-left: 40%;
+  padding: 10px;
+  width: 260px
 
 }
+
+.checkout-book-form{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-left: 40%;
+  padding: 10px;
+  width: 260px
+}
 .checkout-book-form-labels{
-  margin: 20px;
-  padding: 29px;
+  margin: 5px;
+  padding: 5px;
 
 }
 
@@ -70,3 +83,20 @@ h1, h2, h3, a, p, li, ul {
   margin: 20px;
   padding: 29px;
 }
+
+.checkout-book-form-labels{
+
+  @include font;
+}
+
+.button{
+
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.homeimage{
+  height: 63vw;
+  display: flex;
+}
+

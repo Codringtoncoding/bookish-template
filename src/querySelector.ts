@@ -1,7 +1,7 @@
 import Knex from "knex";
 import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
 // create new client {configuration}\dt
-const client = Knex({
+export const client = Knex({
     client: 'pg',
     connection: {
 
@@ -104,5 +104,15 @@ export const UserDisplay = () => {
     .select()
 }
 
+export const GetUserByEmail = (email: string) => {
+    return client('member')
+    .where('email', email)
+    .select()
+    .first()
 
-//SELECT * FROM members 
+}
+
+export const RegisterUser = () => {
+    return client('member')
+}
+//SELECT * FROM members s

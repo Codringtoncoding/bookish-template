@@ -12,7 +12,10 @@ CREATE TABLE IF NOT EXISTS member (
     name           varchar(256) not null,
     phone_number      varchar(128) not null,
     email       varchar(128) not null,
-    address       varchar(1000) not null
+    address       varchar(1000) not null,
+    salt    varchar(256) not null,
+    hash    varchar(256) not null
+
 );
 
 CREATE TABLE IF NOT EXISTS books (
@@ -38,7 +41,7 @@ CREATE TABLE IF NOT EXISTS checkout_history (
 
 );
 
-INSERT INTO member ( name, phone_number, email, address)
+INSERT INTO member ( name, phone_number, email, address, hash, salt)
 VALUES
 ('book_junkie', '97560355675', 'bookie@bookz.biz', 'Sunny av.56, Mordor'),
 ('drunkie', '97560399775', 'elf@magicland.biz', 'Sunny av.56, Mordor'),

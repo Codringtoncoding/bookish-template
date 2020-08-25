@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+    {% block content %}
+    <div class="greeting">
+        <h1>Login</h1>
+    </div>
+    <ul>
+        <form class = "login-form" method = "post" action = "/login">
+        
+
+            <label for="email-input">Please enter your email</Title></label>
+            <input id="email-input" type = "email" name = "username"/>
+
+    
+            <label for="password-input">Please enter your password</label>
+            <input id="password-input" type = "password" name = "password"/>
+    
+            <button type="submit" role="alert">Submit!</button>
+            <a href = "" role = "alert" >forgot password </a>
+        
+        </form>
+    </ul>
+        
+    <!-- <ul>
+        <form method = "delete" action = "/books/remove">
+            <label for="id">Book ID</label>
+            <input id="id" type = "text" name = "id"/>
+            <button type="delete">Delete</button>
+        </form>
+    </ul> -->
+
+{% endblock %}

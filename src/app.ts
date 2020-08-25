@@ -2,8 +2,14 @@
 import express, { response, request } from "express";
 import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
-import { book_name, book_list, editBook, new_book, get_quantity, userCheckOutBook, CheckoutHistory, UserDisplay, book_removal } from "./querySelector"
+import { book_name, book_list, editBook, new_book, get_quantity, userCheckOutBook, CheckoutHistory, UserDisplay, book_removal, GetUserByEmail } from "./querySelector"
+import { addNewMember, tryLoginMember } from "./userManager"
 import moment from "moment";
+import passport from "passport";
+import passportlocal from "passport-local";
+import cookieparser from "cookie-parser";
+import expresssession from "express-session";
+import passportGitHub from "passport-github"
 
 const app = express();
 
@@ -26,14 +32,63 @@ app.use(
     express.static('public')
 );
 
+app.use(cookieparser());
+app.use(expresssession({
+    secret: "secret"
+}));
+
+passport.serializeUser(function (member, done) {
+    done(null, member)
+});
+
+passport.deserializeUser(function (member, done) {
+    done(null, member);
+});
+
+
+const LocalStrategy = passportlocal.Strategy;
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(
+    async (email, password, done) => {
+        const member = await tryLoginMember(email, password)
+        if (member === null) {
+            return done(null, false, { message: 'incorrect Username or password' })
+        }
+        else {
+            return done(null, member);
+        }
+
+    }
+))
+
+passport.use(new passportGitHub.Strategy(
+    {
+        clientID: process.env.GITHUB_OAUTH_CLIENT_ID!,
+        clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET!,
+        callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    },
+    async (accessToken: string, refreshToken: string, profile: any, done: any) => {
+        const email = profile.emails[0].value.toLowerCase();
+        const member = await GetUserByEmail(email);
+        if (member) {
+            return done(null, member);
+        }
+        return done(null, false, { message: "no matching user found" });
+    }
+));
+
 const PATH_TO_TEMPLATES = "./templates/";
 const env = nunjucks.configure(PATH_TO_TEMPLATES, {
     autoescape: true,
     express: app
 });
 
-env.addFilter("formatDate", (sqlDate : string)=>{
-    return moment(sqlDate).format("Do MMM YYYY")})
+
+
+env.addFilter("formatDate", (sqlDate: string) => {
+    return moment(sqlDate).format("Do MMM YYYY")
+})
 
 app.get("/", (req, res) => {
     const model = {
@@ -43,6 +98,12 @@ app.get("/", (req, res) => {
 });
 
 app.get("/book_list", async (req, res) => {
+    console.log("member", req.user)
+    if (req.user === undefined) {
+        return res.redirect("/login")
+    }
+
+
     const bookThing = await book_list()
     const model = {
         books: bookThing
@@ -58,7 +119,41 @@ app.get("/books/:name", async (request, response) => {
 
 });
 
-// app.put("/books/update", async(request, response) => {
+app.post("/signup", async (request, response) => {
+
+    const loginInfoEmail = request.body.email
+    const loginInfoName = request.body.name
+    const loginInfoPhoneNumber = request.body.phone_number
+    const loginInfoAddress = request.body.address
+    console.log(request.body)
+    const loginInfoPassword = request.body.password
+    const confirmLogin = await addNewMember(loginInfoName, loginInfoPhoneNumber, loginInfoAddress, loginInfoEmail, loginInfoPassword)
+
+    response.send('great success');
+});
+
+app.get("/signup", (request, response) => {
+    response.render('loginRegistration.html')
+});
+
+app.get("/login", async (request, response) => {
+    response.render('login.html')
+});
+
+app.post("/login",
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+    })
+);
+
+app.get("/sign-in-with-github",
+    passport.authenticate('github' , {scope: ['user : email' ]}));
+
+
+app.get('/github/callback',
+    passport.authenticate('github', { failureRedirect: '/auth/sign-in', successRedirect: "/books" }));
+    // app.put("/books/update", async(request, response) => {
 //     const changeBook = request.body;
 //     const sqlResult = await update_book(changeBook)
 //     response.send('book updated')
@@ -75,11 +170,11 @@ app.get("/books/:name", async (request, response) => {
 //     response.send('book removed');
 // });
 
-app.delete("/books/remove", async (request, response) => {
-    const deleteBook = request.body
-    await book_removal(deleteBook)
-    response.render('addBook.html')
-});
+// app.delete("/books/remove", async (request, response) => {
+//     const deleteBook = request.body
+//     await book_removal(deleteBook)
+//     response.render('addBook.html')
+// });
 
 //add books
 app.get("/book/addbook", (request, response) => {
@@ -95,7 +190,7 @@ app.post("/book/addbook", async (request, response) => {
 app.get("/book/checkout_book", async (request, response) => {
     const checkoutModel = await CheckoutHistory()
     const model = {
-        checkout_history : checkoutModel
+        checkout_history: checkoutModel
     }
     response.render('checkoutBook.html', model)
 })
@@ -103,7 +198,7 @@ app.get("/book/checkout_book", async (request, response) => {
 app.post("/book/checkout_book", async (request, response) => {
     const checkOutBookUserId = request.body.user_id;
     const checkOutCopyId = request.body.copy_id
-        await userCheckOutBook(checkOutBookUserId, checkOutCopyId)
+    await userCheckOutBook(checkOutBookUserId, checkOutCopyId)
     response.redirect('/book/checkout_book')
 
 });
@@ -183,25 +278,25 @@ app.get("/book/copies", async (request, response) => {
 app.get("/members", async (request, response) => {
     const userThing = await UserDisplay()
     const model = {
-        member : userThing
+        member: userThing
     }
-        return(
+    return (
         response.render('members.html', model)
     )
 })
 
-app.get("/books/edit-book", async(request, response)=>{
-    return(
+app.get("/books/edit-book", async (request, response) => {
+    return (
         response.render('editBook.html')
     )
 })
-app.post("/books/edit-book", async(request,response)=>{
+app.post("/books/edit-book", async (request, response) => {
     // const bookname = [];
     // bookname.book(
     //     {newtitle: book.title}
     // )
     const changeBook = request.body;
-        await editBook(changeBook)
+    await editBook(changeBook)
     response.send('book updated')
 })
 

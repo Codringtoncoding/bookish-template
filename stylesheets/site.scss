@@ -100,3 +100,12 @@ h1, h2, h3, a, p, li, ul {
   display: flex;
 }
 
+.login-form{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-left: 40%;
+  padding: 10px;
+  width: 260px
+}

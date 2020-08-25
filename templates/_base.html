@@ -11,16 +11,18 @@
         <header>
             <nav>
                 <a href="/">Home</a>
+                <a href="/signup">Login or sign up</a>
                 <a href="/book/addbook">Book manager (for librarian)</a>
                 <!-- <a href="/book_list">See all books (for user)</a> -->
                 <a href="/book/copies">See all copies (for user)</a>
                 <a href="/book/checkout_book">Checkout books & history</a>
                 <a href="/members">Members</a>
+                
             </nav>
         </header>
         <main>
             {% block content %}{% endblock %} 
         </main>
-    </body>
+    </body>                 
 </html>
 

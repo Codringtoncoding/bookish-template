@@ -1,0 +1,61 @@
+{% extends "_base.html" %}
+    {% block content %}
+    <div class="greeting">
+        <h1>Login/Registration</h1>
+    </div>
+    <ul>
+        <form class = "login-form" method = "post" action = "/signup">
+            <label for="title-input">Name</Title></label>
+            <input id="title-input" type = "text" name = "name"/>
+
+            <label for="title-input">Phone Number</Title></label>
+            <input id="title-input" type = "text" name = "phone_number"/>
+
+            <label for="email-input">Email</Title></label>
+            <input id="email-input" type = "text" name = "email"/>
+
+            <label for="address-input">Address</Title></label>
+            <input id="address-input" type = "text" name = "address"/>
+        
+            <label for="password-input">Create a password</label>
+            <input id="password-input" type = "text" name = "password"/>
+    
+            <button type="submit" role="alert">Submit!</button>
+            <p>already a member - click below to login!</p>
+            
+            <a href="/login" role="alert">Log in</a>
+
+            <p>sign in with github</p>
+
+            <a href="/sign-in-with-github">click here</a>
+        </form>
+    </ul>
+        
+    <!-- <ul>
+        <form method = "delete" action = "/books/remove">
+            <label for="id">Book ID</label>
+            <input id="id" type = "text" name = "id"/>
+            <button type="delete">Delete</button>
+        </form>
+    </ul> -->
+
+{% endblock %}
+
+
+
+
+
+
+
+<!-- 
+//1. register email
+//2. create password
+//3 get info from form through new passowrd file.
+//4. combine salt and hash in a function
+//save info to the database 
+
+to sign in:
+
+1.get user info and password from the user
+2. send details to database via password file and match the hash and the salt.
+3. retrieve details if matched and accept login. -->
